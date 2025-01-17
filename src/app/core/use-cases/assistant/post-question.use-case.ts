@@ -10,14 +10,14 @@ export const postQuestionUseCase = async (
     const resp = await fetch(`${environment.assistantApi}/user-question`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'aplication/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ threadId, question }),
     });
 
     const replies = (await resp.json()) as QuestionResponse[];
 
-    console.log(replies);
+    console.log({ replies });
 
     return replies;
   } catch (error) {
