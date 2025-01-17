@@ -48,14 +48,31 @@ export class OpenAiService {
     return from(imageVariationUseCase(originalImage));
   }
 
+  // createThread(): Observable<string> {
+  //   if (localStorage.getItem('thread')) {
+  //     return of(localStorage.getItem('thread')!);
+  //   }
+
+  //   return from(createThreadUseCase()).pipe(
+  //     tap((thread) => {
+  //       localStorage.setItem('thread', thread);
+  //     })
+  //   );
+  // }
+
   createThread(): Observable<string> {
-    if (localStorage.getItem('thread')) {
-      return of(localStorage.getItem('thread')!);
+    const storedId = localStorage.getItem('thread');
+
+    // Si tenemos un ID válido y distinto de null/undefined/empty
+    if (storedId && storedId.length > 0 && storedId !== 'undefined') {
+      return of(storedId);
     }
 
+    // Forzar la creación de un nuevo hilo
+    localStorage.removeItem('thread');
     return from(createThreadUseCase()).pipe(
-      tap((thread) => {
-        localStorage.setItem('thread', thread);
+      tap((threadId) => {
+        localStorage.setItem('thread', threadId);
       })
     );
   }

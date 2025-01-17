@@ -53,16 +53,16 @@ export default class AssistantPageComponent implements OnInit {
       .subscribe((replies) => {
         this.isLoading.set(false);
 
-        for (const reply of replies) {
-          for (const message of reply.content) {
-            this.messages.update((prev) => [
-              ...prev,
-              {
-                text: message,
-                isGpt: reply.role === 'assistant',
-              },
-            ]);
-          }
+        const reply = replies[replies.length - 1];
+
+        for (const message of reply.content) {
+          this.messages.update((prev) => [
+            ...prev,
+            {
+              text: message,
+              isGpt: reply.role === 'assistant',
+            },
+          ]);
         }
       });
   }
